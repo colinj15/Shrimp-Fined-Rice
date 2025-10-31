@@ -201,9 +201,9 @@ MonoBehaviour:
   - full: {fileID: -6047047222667411204, guid: 12da3a80dda3ec54ebf98c65e350a515, type: 3}
     left: {fileID: 5989070033818399483, guid: 9e1b3e1540e5dbc459ac735b853c106f, type: 3}
     right: {fileID: -2549443045874675326, guid: 2d7854548fb5da04996ef602e82c8e97, type: 3}
-  - full: {fileID: 2136363723939230175, guid: 794ad7f0c0316e842bed82c3bf8428af, type: 3}
-    left: {fileID: 3208143451060950681, guid: 65c1a86413ca4e14496c370a050faefa, type: 3}
-    right: {fileID: -3579441704616908884, guid: b3718daed584c9e489166b71b44c7d48, type: 3}
+  - full: {fileID: -5542479453896469184, guid: 4ca25d1d6c249374bb1e351b9db87dfa, type: 3}
+    left: {fileID: -1009664829905905901, guid: 3b045db791f012648bfefad08257e536, type: 3}
+    right: {fileID: -4753328614653521870, guid: 597880ef42b363848889d21d4091b0e9, type: 3}
   selectedSprite:
     full: {fileID: 0}
     left: {fileID: 0}

@@ -43,5 +43,15 @@ public class KnifeController : MonoBehaviour
 
         rightController.isCut = true;
         rightController.sr.sprite = ingredient.GetComponent<IngredientController>().selectedSprite.right;
+        
+        // If the cut ingredient is a tax folder
+        if(leftController.selectedSprite.full.name == "Tax Folder_0")
+        {
+            GameManager.Instance.RemoveScore(); // Decrease score
+        }
+        else
+        {
+            GameManager.Instance.AddScore(); // Increase score
+        }
     }
 }

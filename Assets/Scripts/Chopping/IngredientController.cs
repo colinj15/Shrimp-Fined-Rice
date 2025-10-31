@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(SpriteRenderer))] 
 public class IngredientController : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -7,11 +7,9 @@ public class IngredientController : MonoBehaviour
     public IngredientSprites[] ingredientSprites; // Array of ingredient sprite objects to randomly choose from (see IngredientSprites.cs)
     public IngredientSprites selectedSprite; // The selected sprite object for this instance 
 
-    [HideInInspector]
-    public SpriteRenderer sr;
-    
-    [HideInInspector]
-    public bool isCut, isLeft = false; // Checks to see if an ingredient has already been cut and if it's the left half or not
+    [HideInInspector] public int vegetableCounter = 0;
+    [HideInInspector] public SpriteRenderer sr;    
+    [HideInInspector] public bool isCut, isLeft = false; // Checks to see if the instance is cut and if it's the left half
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,17 +23,31 @@ public class IngredientController : MonoBehaviour
             {
                 rb.linearVelocity = new Vector2(-4f, -4f); // Make the instance fall to the left
             }
-            else 
+            else
             {
                 rb.linearVelocity = new Vector2(4f, -4f); // Make the instance fall to the right
             }
         }
-        else 
+        else
         {
-            selectedSprite = ingredientSprites[Random.Range(0, ingredientSprites.Length)]; // Randomly select an ingredient sprite object
+            if (Random.Range(0, 10) == 0) // 10% chance to spawn a tax folder instead of an ingredient
+            {
+                selectedSprite = ingredientSprites[ingredientSprites.Length - 1];
+            }
+            else
+            {
+                selectedSprite = ingredientSprites[Random.Range(0, ingredientSprites.Length - 1)]; // Randomly select an ingredient sprite object
+                GameManager.Instance.AddIngredient();
+            }
             sr.sprite = selectedSprite.full; // Set the sprite to the full ingredient sprite
-            
+
             rb.linearVelocity = new Vector2(Random.Range(-4f, 4f), speed); // Make the instance shoot up at a random angle
         }
+    }
+    
+    // Destroy the instance when it goes off-screen
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 }
