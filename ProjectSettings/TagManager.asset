@@ -8,6 +8,8 @@ TagManager:
   - Heat
   - Border
   - Veggie
+  - Water
+  - Disposal
   layers:
   - Default
   - TransparentFX

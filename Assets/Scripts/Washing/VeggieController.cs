@@ -27,12 +27,16 @@ public class VeggieController : MonoBehaviour
     private float originalDrag;
     public float dragWhileDragging = 10f; // helps damp motion in velocity mode
 
+    private bool isCleaning = false;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
         cam = Camera.main;
+
+        rb.freezeRotation = true; // prevent spinning
 
         originalGravityScale = rb.gravityScale;
         originalDrag = rb.linearDamping;
@@ -105,6 +109,38 @@ public class VeggieController : MonoBehaviour
             rb.MovePosition(newPos);
             rb.linearVelocity = Vector2.zero; // prevent residual drift
         }
+
+        // Cleaning logic
+        if (isCleaning)
+        {
+            dirtyness = Mathf.Max(0f, dirtyness - 0.01f);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            isCleaning = true;
+        }
+
+        if (collision.gameObject.CompareTag("Disposal"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            isCleaning = false;
+        }
+    }
+
+    public void setSprite(Sprite newSprite)
+    {
+        sr.sprite = newSprite;
     }
 
     void OnDrawGizmosSelected()
