@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 410cdd9a082e40c42983630c6071151b
+guid: 86c5e7e88596c449fba87600e874a595
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6764707825347140516
-    second: Knife_0
+      213: 9090588594123563120
+    second: LightBlueButton_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Knife_0
+      name: LightBlueButton_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 7
-        width: 384
-        height: 603
+        x: 0
+        y: 0
+        width: 167
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ab1f1b1de111ed50800000000000000
-      internalID: 6764707825347140516
+      spriteID: 070e3ff8922482e70800000000000000
+      internalID: 9090588594123563120
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Knife_0: 6764707825347140516
+      LightBlueButton_0: 9090588594123563120
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

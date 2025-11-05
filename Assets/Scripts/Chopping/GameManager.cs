@@ -43,9 +43,9 @@ public class GameManager : MonoBehaviour
         cutScoreText.text = "Score: " + cutScore.ToString() + "/20";
     }
 
-    public void Reset() // Reloads the Scene
+    public void LoadKitchen()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("Kitchen");
     }
 
     public void AddIngredient() // Used to count the total number of non tax folders spawned
