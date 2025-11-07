@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public enum MovementDirection
 {
@@ -16,10 +18,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 gridSize = new Vector2(1f, 1f);
     [SerializeField] private CounterTiles counterTiles;
     [SerializeField] private TileSelection tileSelection;
-
+    [SerializeField] private Tilemap washingTilemap, cookingTilemap, choppingTilemap, fryingTilemap;
     private Vector2 targetPosition;
     private bool isMoving = false;
     private MovementDirection currentDirection = MovementDirection.Down;
+    private bool changeScene = false;
+    private string sceneToLoad = "";
 
     // Update is called once per frame
     void Update()
@@ -32,14 +36,39 @@ public class PlayerMovement : MonoBehaviour
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
             targetPosition = tileSelection.GetHighlightedTilePosition();
-            Vector2Int clickedTile = GridUtils.WorldToGrid(targetPosition);
+            Vector2Int clickedTileCell = GridUtils.WorldToGrid(targetPosition);
 
-            if (!counterTiles.IsTileCounter(clickedTile))
+            if (!counterTiles.IsTileCounter(clickedTileCell))
             {
                 if (targetPosition != Vector2.zero)
                 {
                     FindPathToTargetPosition();
                 }
+            }
+            TileBase washingTile = washingTilemap.GetTile((Vector3Int)clickedTileCell);
+            TileBase cookingTile = cookingTilemap.GetTile((Vector3Int)clickedTileCell);
+            TileBase choppingTile = choppingTilemap.GetTile((Vector3Int)clickedTileCell);
+            TileBase fryingTile = fryingTilemap.GetTile((Vector3Int)clickedTileCell);
+
+            if (washingTile != null)
+            {
+                changeScene = true;
+                sceneToLoad = "Washing";
+            }
+            else if (cookingTile != null)
+            {
+                changeScene = true;
+                sceneToLoad = "Cooking";
+            }
+            else if (choppingTile != null)
+            {
+                changeScene = true;
+                sceneToLoad = "Chopping";
+            }
+            else if (fryingTile != null)
+            {
+                changeScene = true;
+                sceneToLoad = "Frying";
             }
         }
 
@@ -75,8 +104,12 @@ public class PlayerMovement : MonoBehaviour
             }
             currentWayPointIndex++;
         }
-
+        Debug.Log("Reached Target Position");
         isMoving = false;
+        if (changeScene && !string.IsNullOrEmpty(sceneToLoad))
+        {
+            SceneManager.LoadScene(sceneToLoad);
+        }
     }
 
     private void MoveTowardsTarget()

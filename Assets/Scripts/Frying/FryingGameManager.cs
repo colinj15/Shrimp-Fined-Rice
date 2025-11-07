@@ -135,7 +135,7 @@ public class FryingGameManager : MonoBehaviour {
 
     public void OnNextGameButtonPressed() {
         if (gameOver) {
-            SceneManager.LoadScene("NAME OF NEXT SCENE HERE"); 
+            // SceneManager.LoadScene("NAME OF NEXT SCENE HERE"); 
         }
     }
 
