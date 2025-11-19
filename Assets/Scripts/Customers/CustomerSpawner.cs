@@ -21,7 +21,7 @@ public class CustomerSpawner : MonoBehaviour
         currentCustomer.setName(Regex.Replace(sprite.name, @"^\s*(\S+).*$", "$1"));
 
         //saves globally
-        CustomerData.CurrentSprite = sprite;
-        CustomerData.CurrentName = name;
+        CustomerData.OrderedSprites.Add(sprite);
+        CustomerData.OrderedNames.Add(currentCustomer.getName());
     }
 }

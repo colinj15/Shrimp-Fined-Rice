@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ButtonController : MonoBehaviour
+public class CustomerButtonController : MonoBehaviour
 {
 
     public CustomerController customer;
