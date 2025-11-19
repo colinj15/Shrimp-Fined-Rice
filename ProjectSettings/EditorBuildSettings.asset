@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menus/Computer Menu.unity
     guid: bf278a265791f431d8a78356239a9384
   - enabled: 1
     path: Assets/Scenes/Menus/Main Menu.unity
     guid: 234ae3e0d13724f029009a75cf8828af
+  - enabled: 1
+    path: Assets/Scenes/Menus/Instructions.unity
+    guid: 739f15dbe2450428a9661da7da2b565d
   - enabled: 1
     path: Assets/Scenes/Minigames/Chopping.unity
     guid: 8692b47544b49472e89db8cf217d3c70
@@ -26,10 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Resturaunt/Kitchen.unity
     guid: 9009d8e5d36cd4f498599beb8e242c9a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Resturaunt/Office.unity
     guid: f13f10477f027439bb2f02f0bb3d6462
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Resturaunt/Lobby.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
