@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 288267427}
   - component: {fileID: 288267426}
   - component: {fileID: 288267425}
+  - component: {fileID: 288267428}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -390,6 +391,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &288267428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288267424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee9b5e20570244a50b13c28aa15bb96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaitingAreaButtons
 --- !u!1 &475862284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1878,6 +1891,7 @@ GameObject:
   - component: {fileID: 1473109420}
   - component: {fileID: 1473109419}
   - component: {fileID: 1473109418}
+  - component: {fileID: 1473109421}
   m_Layer: 5
   m_Name: BackToLobby
   m_TagString: Untagged
@@ -1948,7 +1962,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1473109419}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 288267428}
+        m_TargetAssemblyTypeName: WaitingAreaButtons, Assembly-CSharp
+        m_MethodName: GoToOrdering
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1473109419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1987,6 +2013,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473109416}
   m_CullTransparentMesh: 1
+--- !u!114 &1473109421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473109416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee9b5e20570244a50b13c28aa15bb96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaitingAreaButtons
 --- !u!1 &1549960969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,6 +2682,7 @@ GameObject:
   - component: {fileID: 2062615547}
   - component: {fileID: 2062615546}
   - component: {fileID: 2062615545}
+  - component: {fileID: 2062615548}
   m_Layer: 5
   m_Name: BackToKitchen
   m_TagString: Untagged
@@ -2714,7 +2753,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2062615546}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 288267428}
+        m_TargetAssemblyTypeName: WaitingAreaButtons, Assembly-CSharp
+        m_MethodName: GoToKitchen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2062615546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2753,6 +2804,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062615543}
   m_CullTransparentMesh: 1
+--- !u!114 &2062615548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062615543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee9b5e20570244a50b13c28aa15bb96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaitingAreaButtons
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
