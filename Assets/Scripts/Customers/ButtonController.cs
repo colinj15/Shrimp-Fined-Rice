@@ -11,14 +11,21 @@ public class CustomerButtonController : MonoBehaviour
         
     }
 
-    public void OnButtonClick()
-    {
-        customer.changeSprite(sprites[Random.Range(0, sprites.Length)]);
-    }
+    public void OnButtonClick(){
+        var queueManager = FindAnyObjectByType<CustomerQueueManager>();
+        var front = queueManager.PeekFrontCustomer();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //only allow front customer
+        if (customer != front) return;
+
+        // generate order
+        customer.order.GenerateOrder();
+
+        // save globally
+        Sprite currentSprite = customer.GetComponent<SpriteRenderer>()?.sprite;
+        OrderSystem.AddOrder(customer.getName(), customer.order.Ingredients, currentSprite);
+
+        queueManager.DequeueCustomer();
+        queueManager.TrySpawnCustomer();
     }
 }

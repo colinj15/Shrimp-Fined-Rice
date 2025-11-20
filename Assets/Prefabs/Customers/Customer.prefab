@@ -51,6 +51,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5241599081535479897}
   hitbox: {fileID: 6149452765211248905}
   spriteHitboxSync: {fileID: 6793497576945294408}
+  order: {fileID: 0}
 --- !u!212 &5241599081535479897
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -97,7 +98,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_Sprite: {fileID: -8993116683093127382, guid: dc67a1a66759f4c549441f904ee9c822, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

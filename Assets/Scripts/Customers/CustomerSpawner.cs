@@ -19,9 +19,5 @@ public class CustomerSpawner : MonoBehaviour
         Sprite sprite = sprites[UnityEngine.Random.Range(0, sprites.Length)];
         currentCustomer.changeSprite(sprite);
         currentCustomer.setName(Regex.Replace(sprite.name, @"^\s*(\S+).*$", "$1"));
-
-        //saves globally
-        CustomerData.OrderedSprites.Add(sprite);
-        CustomerData.OrderedNames.Add(currentCustomer.getName());
     }
 }

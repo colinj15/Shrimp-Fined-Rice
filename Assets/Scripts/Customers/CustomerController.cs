@@ -6,6 +6,10 @@ public class CustomerController : MonoBehaviour
     public PolygonCollider2D hitbox;
     public SpriteHitboxSync spriteHitboxSync;
     private string customerName;
+
+    public bool IsAtFront { get;set;} = false;
+    public CustomerOrder order; 
+    
     void Start()
     {
 
