@@ -7,29 +7,23 @@ public class OrderTicketUI : MonoBehaviour {
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI ingredientsText;
     public Image highlightImage;
-    public Button button;
 
     private OrderSystem.OrderData order;
 
-    // called by OrderUIManager when ticket is created
-    public void Initialize(OrderSystem.OrderData orderData) {
-        order = orderData;
+    public void SetOrder(OrderSystem.OrderData data) {
+        order = data;
 
-        avatarImage.sprite = order.WaitingSprite;
-        nameText.text = order.CustomerName;
-        ingredientsText.text = string.Join(", ", order.Ingredients);
-
-        button.onClick.AddListener(OnTicketClicked);
+        avatarImage.sprite = data.WaitingSprite;
+        nameText.text = data.CustomerName;
+        ingredientsText.text = string.Join(", ", data.Ingredients);
     }
 
-    private void OnTicketClicked() {
-        OrderUIManager.Instance.SelectTicket(this, order);
+    public void OnClick() {
+        OrderUIManager.Instance.SelectTicket(order, this);
     }
 
-    public void SetHighlight(bool enabled) {
-        highlightImage.gameObject.SetActive(enabled);
+    public void SetHighlight(bool on) {
+        highlightImage.gameObject.SetActive(on);
     }
-
-    public OrderSystem.OrderData GetOrder() => order;
 }
 

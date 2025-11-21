@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OrderUIManager : MonoBehaviour {
     public static OrderUIManager Instance;
 
-    public Transform ticketContainer;
     public GameObject ticketPrefab;
+    public RectTransform[] ticketSlots;
 
     private OrderTicketUI selectedTicket;
 
@@ -27,29 +26,29 @@ public class OrderUIManager : MonoBehaviour {
         OrderSystem.OnOrdersUpdated -= RefreshUI;
     }
 
-    private void Start() {
-        RefreshUI();
-    }
-
     public void RefreshUI() {
-        foreach (Transform child in ticketContainer)
-            Destroy(child.gameObject);
+        // clear slot children
+        foreach (var slot in ticketSlots) {
+            foreach (Transform child in slot)
+                Destroy(child.gameObject);
+        }
 
-        foreach (var order in OrderSystem.ActiveOrders) {
-            var ticketObj = Instantiate(ticketPrefab, ticketContainer);
-            var ticketUI = ticketObj.GetComponent<OrderTicketUI>();
-            ticketUI.Initialize(order);
+        // spawn new tickets
+        for (int i = 0; i < OrderSystem.ActiveOrders.Count; i++) {
+            var ticketObj = Instantiate(ticketPrefab, ticketSlots[i]);
+            var ui = ticketObj.GetComponent<OrderTicketUI>();
+            ui.SetOrder(OrderSystem.ActiveOrders[i]);
         }
     }
 
-    public void SelectTicket(OrderTicketUI ticket, OrderSystem.OrderData order) {
+    public void SelectTicket(OrderSystem.OrderData order, OrderTicketUI ticketUI) {
         if (selectedTicket != null)
             selectedTicket.SetHighlight(false);
 
-        selectedTicket = ticket;
+        selectedTicket = ticketUI;
         selectedTicket.SetHighlight(true);
 
+        // tell WaitingAreaManager which order is selected
         WaitingAreaManager.SelectedOrder = order;
     }
 }
-
