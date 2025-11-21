@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 gridSize = new Vector2(1f, 1f);
     [SerializeField] private CounterTiles counterTiles;
     [SerializeField] private TileSelection tileSelection;
-    [SerializeField] private Tilemap washingTilemap, cookingTilemap, choppingTilemap, fryingTilemap;
+    [SerializeField] private Tilemap washingTilemap, cookingTilemap, choppingTilemap, fryingTilemap, officeTilemap;
     private Vector2 targetPosition;
     private bool isMoving = false;
     private MovementDirection currentDirection = MovementDirection.Down;
@@ -45,11 +45,27 @@ public class PlayerMovement : MonoBehaviour
                     FindPathToTargetPosition();
                 }
             }
-            TileBase washingTile = washingTilemap.GetTile((Vector3Int)clickedTileCell);
-            TileBase cookingTile = cookingTilemap.GetTile((Vector3Int)clickedTileCell);
-            TileBase choppingTile = choppingTilemap.GetTile((Vector3Int)clickedTileCell);
-            TileBase fryingTile = fryingTilemap.GetTile((Vector3Int)clickedTileCell);
+            TileBase washingTile = null;
+            TileBase cookingTile = null;
+            TileBase choppingTile = null;
+            TileBase fryingTile = null;
+            TileBase officeTile = null;
 
+            if (washingTilemap != null)
+                washingTile = washingTilemap.GetTile((Vector3Int)clickedTileCell);
+
+            if (cookingTilemap != null)
+                cookingTile = cookingTilemap.GetTile((Vector3Int)clickedTileCell);
+
+            if (choppingTilemap != null)
+                choppingTile = choppingTilemap.GetTile((Vector3Int)clickedTileCell);
+
+            if (fryingTilemap != null)
+                fryingTile = fryingTilemap.GetTile((Vector3Int)clickedTileCell);
+            if (officeTilemap != null)
+                officeTile = officeTilemap.GetTile((Vector3Int)clickedTileCell);
+
+            // Then your logic
             if (washingTile != null)
             {
                 changeScene = true;
@@ -69,6 +85,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 changeScene = true;
                 sceneToLoad = "Frying";
+            }
+            else if (officeTile != null)
+            {
+                changeScene = true;
+                sceneToLoad = "Computer Menu";
             }
         }
 

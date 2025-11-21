@@ -4724,6 +4724,7 @@ MonoBehaviour:
   cookingTilemap: {fileID: 1875103399}
   choppingTilemap: {fileID: 2003154863}
   fryingTilemap: {fileID: 1429881720}
+  officeTilemap: {fileID: 1891857377}
 --- !u!1001 &6423477202936885956
 PrefabInstance:
   m_ObjectHideFlags: 0
