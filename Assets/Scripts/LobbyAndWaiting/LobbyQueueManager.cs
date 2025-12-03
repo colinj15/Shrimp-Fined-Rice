@@ -47,7 +47,7 @@ public class LobbyQueueManager : MonoBehaviour {
             var clickHandler = queue[i].GetComponent<CustomerClickHandler>();
 
             // Only front customer should respond to clicks
-            clickHandler.isFrontCustomer = (i == 0);
+            clickHandler.isFrontCustomer = i == 0;
         }
     }
 
