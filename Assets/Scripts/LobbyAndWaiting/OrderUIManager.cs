@@ -6,7 +6,6 @@ public class OrderUIManager : MonoBehaviour {
     public GameObject ticketPrefab;
     public RectTransform[] ticketSlots;
     public RectTransform largeTicketSlot;   // parent on OrdersCanvas for enlarged ticket view
-    public GameObject largeTicketPrefab;    // optional override; falls back to ticketPrefab
 
     private OrderTicketUI selectedTicket;
     private GameObject activeLargeTicket;
@@ -15,7 +14,7 @@ public class OrderUIManager : MonoBehaviour {
     void Awake() {
         if (Instance == null) {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else {
             Destroy(gameObject);
@@ -107,16 +106,15 @@ public class OrderUIManager : MonoBehaviour {
         if (!EnsureLargeTicketSlot())
             return null;
 
-        var prefab = largeTicketPrefab != null ? largeTicketPrefab : ticketPrefab;
-        if (prefab == null) {
-            Debug.LogError("[OrderUIManager] No prefab available for large ticket.");
+        if (ticketPrefab == null) {
+            Debug.LogError("[OrderUIManager] No ticket prefab assigned.");
             return null;
         }
 
         if (activeLargeTicket != null)
             Destroy(activeLargeTicket);
 
-        activeLargeTicket = Instantiate(prefab, largeTicketSlot);
+        activeLargeTicket = Instantiate(ticketPrefab, largeTicketSlot);
 
         // Stretch to fill the slot for consistent sizing
         if (activeLargeTicket.transform is RectTransform rect) {
@@ -135,6 +133,7 @@ public class OrderUIManager : MonoBehaviour {
         }
 
         ui.SetOrder(order);
+        ui.DisableHighlighting(); // ensure large ticket never highlights (hover or select)
         return ui;
     }
 

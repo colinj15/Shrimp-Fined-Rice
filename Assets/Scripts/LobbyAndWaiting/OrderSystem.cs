@@ -1,20 +1,35 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
-public static class OrderSystem {
+public class OrderSystem : MonoBehaviour {
+    public static OrderSystem Instance { get; private set; }
+
     public const int MaxOrders = 6;
 
-    public static List<OrderData> ActiveOrders = new List<OrderData>();
+    private readonly List<OrderData> activeOrders = new List<OrderData>();
+    private static readonly List<OrderData> EmptyOrders = new List<OrderData>();
+    public static List<OrderData> ActiveOrders => Instance != null ? Instance.activeOrders : EmptyOrders;
     public static event Action OnOrdersUpdated;
+
+    void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     // a single order
     public class OrderData {
         public int CustomerID;
         public string CustomerName;
         public List<string> Ingredients;
-        public UnityEngine.Sprite LobbySprite;       // side-facing
-        public UnityEngine.Sprite WaitingSprite;     // front-facing
+        public Sprite LobbySprite;       // side-facing
+        public Sprite WaitingSprite;     // front-facing
+        public bool IsComplete;
 
         public override string ToString() {
             var ingredientList = Ingredients == null ? "<none>" : string.Join(", ", Ingredients);
@@ -27,13 +42,64 @@ public static class OrderSystem {
 
     // adds an order if possible
     public static bool AddOrder(
-        int customerID, 
+        int customerID,
         string customerName,
         List<string> ingredients,
-        UnityEngine.Sprite lobbySprite,
-        UnityEngine.Sprite waitingSprite)
+        Sprite lobbySprite,
+        Sprite waitingSprite)
     {
-        if (ActiveOrders.Count >= MaxOrders)
+        if (!EnsureInstance(nameof(AddOrder))) return false;
+        return Instance.AddOrderInternal(customerID, customerName, ingredients, lobbySprite, waitingSprite);
+    }
+
+    // Removes an order by reference
+    public static void RemoveOrder(OrderData order) {
+        if (!EnsureInstance(nameof(RemoveOrder))) return;
+        Instance.RemoveOrderInternal(order);
+    }
+
+    // Removes an order by ID
+    public static void RemoveOrderByID(int customerID) {
+        if (!EnsureInstance(nameof(RemoveOrderByID))) return;
+        Instance.RemoveOrderByIDInternal(customerID);
+    }
+
+    // Find specific customer's order
+    public static OrderData GetOrderByID(int customerID) {
+        if (!EnsureInstance(nameof(GetOrderByID))) return null;
+        return Instance.activeOrders.Find(o => o.CustomerID == customerID);
+    }
+
+    // Marks an order as complete and notifies listeners
+    public static void MarkOrderComplete(OrderData order) {
+        if (!EnsureInstance(nameof(MarkOrderComplete))) return;
+        Instance.MarkOrderCompleteInternal(order);
+    }
+
+    public static void MarkOrderCompleteByID(int customerID) {
+        if (!EnsureInstance(nameof(MarkOrderCompleteByID))) return;
+        var match = Instance.activeOrders.Find(o => o.CustomerID == customerID);
+        if (match != null)
+            Instance.MarkOrderCompleteInternal(match);
+    }
+
+    // Replace all orders at once (useful when restoring persistence)
+    public static void SetOrders(List<OrderData> orders) {
+        if (!EnsureInstance(nameof(SetOrders))) return;
+        Instance.activeOrders.Clear();
+        if (orders != null)
+            Instance.activeOrders.AddRange(orders);
+        OnOrdersUpdated?.Invoke();
+    }
+
+    private bool AddOrderInternal(
+        int customerID,
+        string customerName,
+        List<string> ingredients,
+        Sprite lobbySprite,
+        Sprite waitingSprite)
+    {
+        if (activeOrders.Count >= MaxOrders)
             return false;
 
         OrderData newOrder = new OrderData() {
@@ -41,36 +107,42 @@ public static class OrderSystem {
             CustomerName = customerName,
             Ingredients = ingredients,
             LobbySprite = lobbySprite,
-            WaitingSprite = waitingSprite
+            WaitingSprite = waitingSprite,
+            IsComplete = false
         };
 
-        UnityEngine.Debug.Log($"[OrderSystem] Added order -> {newOrder}");
+        Debug.Log($"[OrderSystem] Added order -> {newOrder}");
 
-        ActiveOrders.Add(newOrder);
+        activeOrders.Add(newOrder);
         OnOrdersUpdated?.Invoke();
         return true;
     }
 
-    // Removes an order by reference
-    public static void RemoveOrder(OrderData order) {
-        if (ActiveOrders.Contains(order)) {
-            ActiveOrders.Remove(order);
+    private void RemoveOrderInternal(OrderData order) {
+        if (activeOrders.Contains(order)) {
+            activeOrders.Remove(order);
             OnOrdersUpdated?.Invoke();
         }
     }
 
-    // Removes an order by ID
-    public static void RemoveOrderByID(int customerID) {
-        var match = ActiveOrders.Find(o => o.CustomerID == customerID);
+    private void RemoveOrderByIDInternal(int customerID) {
+        var match = activeOrders.Find(o => o.CustomerID == customerID);
         if (match != null)
         {
-            ActiveOrders.Remove(match);
+            activeOrders.Remove(match);
             OnOrdersUpdated?.Invoke();
         }
     }
 
-    // Find specific customer's order
-    public static OrderData GetOrderByID(int customerID) {
-        return ActiveOrders.Find(o => o.CustomerID == customerID);
+    private void MarkOrderCompleteInternal(OrderData order) {
+        if (order == null) return;
+        order.IsComplete = true;
+        OnOrdersUpdated?.Invoke();
+    }
+
+    private static bool EnsureInstance(string caller) {
+        if (Instance != null) return true;
+        Debug.LogError($"[OrderSystem] No instance in scene when calling {caller}. Make sure an OrderSystem GameObject exists.");
+        return false;
     }
 }

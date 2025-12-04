@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 gridSize = new Vector2(1f, 1f);
     [SerializeField] private CounterTiles counterTiles;
     [SerializeField] private TileSelection tileSelection;
-    [SerializeField] private Tilemap washingTilemap, cookingTilemap, choppingTilemap, fryingTilemap, officeTilemap;
+    [SerializeField] private Tilemap washingTilemap, cookingTilemap, choppingTilemap, fryingTilemap, officeTilemap, lobbyTilemap;
     private Vector2 targetPosition;
     private bool isMoving = false;
     private MovementDirection currentDirection = MovementDirection.Down;
@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
             TileBase choppingTile = null;
             TileBase fryingTile = null;
             TileBase officeTile = null;
+            TileBase lobbyTile = null;
 
             if (washingTilemap != null)
                 washingTile = washingTilemap.GetTile((Vector3Int)clickedTileCell);
@@ -62,8 +63,12 @@ public class PlayerMovement : MonoBehaviour
 
             if (fryingTilemap != null)
                 fryingTile = fryingTilemap.GetTile((Vector3Int)clickedTileCell);
+                
             if (officeTilemap != null)
                 officeTile = officeTilemap.GetTile((Vector3Int)clickedTileCell);
+
+            if (lobbyTilemap != null)
+                lobbyTile = lobbyTilemap.GetTile((Vector3Int)clickedTileCell);
 
             // Then your logic
             if (washingTile != null)
@@ -90,6 +95,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 changeScene = true;
                 sceneToLoad = "Computer Menu";
+            }
+            else if (lobbyTile != null)
+            {
+                changeScene = true;
+                sceneToLoad = "Lobby";
             }
         }
 
