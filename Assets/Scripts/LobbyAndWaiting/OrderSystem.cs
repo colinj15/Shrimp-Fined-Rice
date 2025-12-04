@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public static class OrderSystem {
     public const int MaxOrders = 6;
@@ -14,6 +15,14 @@ public static class OrderSystem {
         public List<string> Ingredients;
         public UnityEngine.Sprite LobbySprite;       // side-facing
         public UnityEngine.Sprite WaitingSprite;     // front-facing
+
+        public override string ToString() {
+            var ingredientList = Ingredients == null ? "<none>" : string.Join(", ", Ingredients);
+            return $"ID: {CustomerID} | Name: {CustomerName} | Ingredients: {ingredientList}";
+        }
+
+        // Maintain backwards compatibility if anything still calls the old method
+        public string toString() => ToString();
     }
 
     // adds an order if possible
@@ -34,6 +43,8 @@ public static class OrderSystem {
             LobbySprite = lobbySprite,
             WaitingSprite = waitingSprite
         };
+
+        UnityEngine.Debug.Log($"[OrderSystem] Added order -> {newOrder}");
 
         ActiveOrders.Add(newOrder);
         OnOrdersUpdated?.Invoke();
@@ -63,4 +74,3 @@ public static class OrderSystem {
         return ActiveOrders.Find(o => o.CustomerID == customerID);
     }
 }
-
