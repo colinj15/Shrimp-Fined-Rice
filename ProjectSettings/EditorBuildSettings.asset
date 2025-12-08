@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Minigames/Washing.unity
     guid: 14ed24824baaa4288b3ad3352b857c71
   - enabled: 1
+    path: Assets/Scenes/Resturaunt/WaitingArea.unity
+    guid: 6cc70deb1559f4a19b873086a9baa1fd
+  - enabled: 1
     path: Assets/Scenes/Resturaunt/Kitchen.unity
     guid: 9009d8e5d36cd4f498599beb8e242c9a
   - enabled: 0

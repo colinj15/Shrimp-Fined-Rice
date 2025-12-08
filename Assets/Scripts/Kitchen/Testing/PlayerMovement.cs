@@ -19,11 +19,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CounterTiles counterTiles;
     [SerializeField] private TileSelection tileSelection;
     [SerializeField] private Tilemap washingTilemap, cookingTilemap, choppingTilemap, fryingTilemap, officeTilemap, lobbyTilemap;
+    [SerializeField] private GameObject ordersCanvas; // OrdersCanvas is disabled by default; enable for ticket selection
     private Vector2 targetPosition;
     private bool isMoving = false;
     private MovementDirection currentDirection = MovementDirection.Down;
     private bool changeScene = false;
     private string sceneToLoad = "";
+    private bool waitingForOrderSelection = false;
 
     // Update is called once per frame
     void Update()
@@ -33,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovementInput()
     {
+        if (waitingForOrderSelection)
+            return;
+
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
             targetPosition = tileSelection.GetHighlightedTilePosition();
@@ -139,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
         isMoving = false;
         if (changeScene && !string.IsNullOrEmpty(sceneToLoad))
         {
-            SceneManager.LoadScene(sceneToLoad);
+            StartCoroutine(SelectOrderThenLoad(sceneToLoad));
         }
     }
 
@@ -160,5 +165,57 @@ public class PlayerMovement : MonoBehaviour
             else
                 currentDirection = MovementDirection.Down;
         }
+    }
+
+    private IEnumerator SelectOrderThenLoad(string sceneName)
+    {
+        if (waitingForOrderSelection)
+            yield break;
+
+        // Skip selection flow for Lobby or Office scenes
+        if (sceneName == "Lobby" || sceneName == "Computer Menu")
+        {
+            SceneManager.LoadScene(sceneName);
+            yield break;
+        }
+
+        waitingForOrderSelection = true;
+
+        var canvasObj = ResolveOrdersCanvas();
+        if (canvasObj != null && !canvasObj.activeSelf)
+            canvasObj.SetActive(true);
+
+        // Clear any previous selection to force the player to choose
+        if (OrderUIManager.Instance != null)
+            OrderUIManager.Instance.ClearSelectedOrder();
+
+        // Disable tile selection/highlight so clicks go to UI
+        if (tileSelection != null)
+            tileSelection.enabled = false;
+
+        // Wait until a ticket is selected
+        OrderSystem.OrderData chosen = null;
+        while (chosen == null)
+        {
+            var ui = OrderUIManager.Instance;
+            if (ui != null)
+                chosen = ui.LastSelectedOrder;
+
+            yield return null;
+        }
+
+        OrderSystem.SetActiveMinigameOrder(chosen);
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private GameObject ResolveOrdersCanvas()
+    {
+        if (ordersCanvas != null)
+            return ordersCanvas;
+
+        var found = GameObject.Find("OrdersCanvas");
+        if (found != null)
+            ordersCanvas = found;
+        return ordersCanvas;
     }
 }

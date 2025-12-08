@@ -10,6 +10,7 @@ public class OrderSystem : MonoBehaviour {
     private readonly List<OrderData> activeOrders = new List<OrderData>();
     private static readonly List<OrderData> EmptyOrders = new List<OrderData>();
     public static List<OrderData> ActiveOrders => Instance != null ? Instance.activeOrders : EmptyOrders;
+    public static OrderData ActiveMinigameOrder { get; private set; }
     public static event Action OnOrdersUpdated;
 
     void Awake() {
@@ -81,6 +82,12 @@ public class OrderSystem : MonoBehaviour {
         var match = Instance.activeOrders.Find(o => o.CustomerID == customerID);
         if (match != null)
             Instance.MarkOrderCompleteInternal(match);
+    }
+
+    // Sets which order is active for a minigame session
+    public static void SetActiveMinigameOrder(OrderData order) {
+        if (!EnsureInstance(nameof(SetActiveMinigameOrder))) return;
+        ActiveMinigameOrder = order;
     }
 
     // Replace all orders at once (useful when restoring persistence)

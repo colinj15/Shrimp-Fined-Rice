@@ -11,6 +11,8 @@ public class OrderUIManager : MonoBehaviour {
     private GameObject activeLargeTicket;
     private Canvas ordersCanvas;
 
+    public OrderSystem.OrderData LastSelectedOrder { get; private set; }
+
     void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -91,6 +93,7 @@ public class OrderUIManager : MonoBehaviour {
             selectedTicket.SetHighlight(false);
 
         selectedTicket = ticketUI;
+        LastSelectedOrder = order;
 
         // tell WaitingAreaManager which order is selected
         WaitingAreaManager.SelectedOrder = order;
@@ -100,6 +103,11 @@ public class OrderUIManager : MonoBehaviour {
         // Disable highlighting on both the clicked ticket and its large copy
         selectedTicket?.ClearHighlightState();
         largeTicketUI?.ClearHighlightState();
+    }
+
+    public void ClearSelectedOrder() {
+        LastSelectedOrder = null;
+        selectedTicket = null;
     }
 
     private OrderTicketUI ShowLargeTicket(OrderSystem.OrderData order) {
@@ -115,6 +123,9 @@ public class OrderUIManager : MonoBehaviour {
             Destroy(activeLargeTicket);
 
         activeLargeTicket = Instantiate(ticketPrefab, largeTicketSlot);
+        // Ensure the large ticket renders on top by moving its parent and itself to the end of the hierarchy
+        largeTicketSlot.SetAsLastSibling();
+        activeLargeTicket.transform.SetAsLastSibling();
 
         // Stretch to fill the slot for consistent sizing
         if (activeLargeTicket.transform is RectTransform rect) {
