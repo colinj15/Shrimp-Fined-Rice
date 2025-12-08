@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249d371a7c8e54666aaf0a8d23c5cdaf, type: 3}
+  m_Name: IngredientList
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientListSO
+  ingredients:
+  - ingredientName: Carrot
+    icon: {fileID: -5859083586626064994, guid: 555cde5581c266d4f8f94c74cfaee597, type: 3}
+  - ingredientName: Bok Choy
+    icon: {fileID: 2800100480341681694, guid: 4f0e42fd454c47640ac68fe6d9ba7267, type: 3}
+  - ingredientName: Broccoli
+    icon: {fileID: -918663293682559355, guid: 575afba4d7c425446baf71ca8820e46f, type: 3}
+  - ingredientName: Peas
+    icon: {fileID: -6047047222667411204, guid: 12da3a80dda3ec54ebf98c65e350a515, type: 3}
+  - ingredientName: Onion
+    icon: {fileID: 5465580561085644368, guid: fa99f16afbc87b14c803d009f4caf7bb, type: 3}
+  - ingredientName: Cabbage
+    icon: {fileID: 159068718711766808, guid: 373e1ee9a47bf004aa978beff69f1807, type: 3}
+  - ingredientName: Mushroom
+    icon: {fileID: 4315506946141470425, guid: 86dfdb9b5dac41441868be9129e43764, type: 3}

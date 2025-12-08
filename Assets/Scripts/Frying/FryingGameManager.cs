@@ -172,4 +172,9 @@ public class FryingGameManager : MonoBehaviour {
         sprite.localScale = startScale;
 
     }
+
+    public int GetWeightedScore() {
+        int maxScore = totalRounds * 100;
+        return ScoreUtility.ToWeighted20(totalScore, maxScore);
+    }
 }
