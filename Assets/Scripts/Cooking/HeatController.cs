@@ -86,4 +86,15 @@ public class HeatController : MonoBehaviour
             inThreshold = false;
         }
     }
+
+// gives score out of 20 (1/5 of customer score)
+    public int GetWeightedScore() {
+        float maxTime = cookManager.GetTotalTime();
+        int raw = Mathf.FloorToInt(score * 10);
+        int max = Mathf.FloorToInt(maxTime * 10);
+
+        return ScoreUtility.ToWeighted20(raw, max);
+    }
+
+
 }

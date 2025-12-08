@@ -36,4 +36,8 @@ public class CookManager : MonoBehaviour
     {
         return Mathf.CeilToInt(seconds);
     }
+
+    public float GetTotalTime() {
+        return seconds;
+    }
 }

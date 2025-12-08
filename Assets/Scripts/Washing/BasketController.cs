@@ -45,4 +45,9 @@ public class BasketController : MonoBehaviour
         }
         scoreText.text = "Score: " + score;
     }
+
+    public int GetWeightedScore() {
+        
+    }
+
 }
