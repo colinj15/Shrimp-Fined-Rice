@@ -7,11 +7,14 @@ public class OrderTicketUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Image avatarImage;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI ingredientsText;
-    public Image highlightImage;
+    public Image highlightHoverImage;
+    public Image highlightCompleteImage;
 
     private OrderSystem.OrderData order;
     private bool isSelected;
     private bool isHovered;
+    private bool allowHighlight = true;
+    private bool isComplete = false;
 
     public void SetOrder(OrderSystem.OrderData data) {
         order = data;
@@ -24,6 +27,7 @@ public class OrderTicketUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         avatarImage.sprite = data.WaitingSprite;
         nameText.text = data.CustomerName;
         ingredientsText.text = string.Join(", ", data.Ingredients);
+        isComplete = data.IsComplete;
 
         UpdateHighlightVisual();
     }
@@ -48,6 +52,11 @@ public class OrderTicketUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         UpdateHighlightVisual();
     }
 
+    public void DisableHighlighting() {
+        allowHighlight = false;
+        ClearHighlightState();
+    }
+
     public void OnPointerEnter(PointerEventData eventData) {
         isHovered = true;
         UpdateHighlightVisual();
@@ -59,8 +68,26 @@ public class OrderTicketUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
 
     private void UpdateHighlightVisual() {
-        if (highlightImage == null) return;
-        // Show highlight when selected or hovered
-        highlightImage.gameObject.SetActive(isSelected || isHovered);
+        // Refresh completion state from the order reference
+        isComplete = order != null && order.IsComplete;
+
+        if (highlightCompleteImage != null)
+            highlightCompleteImage.gameObject.SetActive(allowHighlight && isComplete);
+
+        if (highlightHoverImage == null) return;
+
+        if (!allowHighlight) {
+            highlightHoverImage.gameObject.SetActive(false);
+            return;
+        }
+
+        // If complete, suppress normal highlight (complete image handles it)
+        if (isComplete) {
+            highlightHoverImage.gameObject.SetActive(false);
+            return;
+        }
+
+        // Show normal highlight when selected or hovered
+        highlightHoverImage.gameObject.SetActive(isSelected || isHovered);
     }
 }

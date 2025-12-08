@@ -180,31 +180,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientController
   speed: 12.5
   ingredientSprites:
-  - full: {fileID: 2800100480341681694, guid: 4f0e42fd454c47640ac68fe6d9ba7267, type: 3}
+  - ingredientName: Bok Choy
+    full: {fileID: 2800100480341681694, guid: 4f0e42fd454c47640ac68fe6d9ba7267, type: 3}
     left: {fileID: -305923530654553516, guid: 7343460b8e3b9d547b83a3adb3ac8f06, type: 3}
     right: {fileID: -6881831364679488829, guid: bb8de1d657c3f7b4d873c184543a3535, type: 3}
-  - full: {fileID: -918663293682559355, guid: 575afba4d7c425446baf71ca8820e46f, type: 3}
+  - ingredientName: Broccoli
+    full: {fileID: -918663293682559355, guid: 575afba4d7c425446baf71ca8820e46f, type: 3}
     left: {fileID: 2990061406841986820, guid: 9fc8d3a7eb4df1046b2e6405dc540db9, type: 3}
     right: {fileID: -1279761451544626522, guid: 632ba599e0b3b604695e900cb27c1182, type: 3}
-  - full: {fileID: 159068718711766808, guid: 373e1ee9a47bf004aa978beff69f1807, type: 3}
+  - ingredientName: Cabbage
+    full: {fileID: 159068718711766808, guid: 373e1ee9a47bf004aa978beff69f1807, type: 3}
     left: {fileID: 4832197879296269514, guid: 98b8c5ea82569d642996faf16bdac08b, type: 3}
     right: {fileID: 1555359882480059413, guid: 7430606107b1e8540ad8fbc6dcec65b7, type: 3}
-  - full: {fileID: -5859083586626064994, guid: 555cde5581c266d4f8f94c74cfaee597, type: 3}
+  - ingredientName: Carrots
+    full: {fileID: -5859083586626064994, guid: 555cde5581c266d4f8f94c74cfaee597, type: 3}
     left: {fileID: -6860307591415708708, guid: 22a3c1a11b3ea2341bbe6713647f9bae, type: 3}
     right: {fileID: -2991492519457656587, guid: 3f0a145167f2c7848be97e454086d65e, type: 3}
-  - full: {fileID: 4315506946141470425, guid: 86dfdb9b5dac41441868be9129e43764, type: 3}
+  - ingredientName: Mushroom
+    full: {fileID: 4315506946141470425, guid: 86dfdb9b5dac41441868be9129e43764, type: 3}
     left: {fileID: -6355249694297333375, guid: 821371a89dc86f84c85e1ee3558c1193, type: 3}
     right: {fileID: -6100332186516920490, guid: 4a620efc41773c044930138390fdad8c, type: 3}
-  - full: {fileID: 5465580561085644368, guid: fa99f16afbc87b14c803d009f4caf7bb, type: 3}
+  - ingredientName: Onion
+    full: {fileID: 5465580561085644368, guid: fa99f16afbc87b14c803d009f4caf7bb, type: 3}
     left: {fileID: -2865350112329467339, guid: f92f197f0125e984faaf3d587feb6326, type: 3}
     right: {fileID: -1535254980050508979, guid: b3b72a039022b24479490a5d60fc1417, type: 3}
-  - full: {fileID: -6047047222667411204, guid: 12da3a80dda3ec54ebf98c65e350a515, type: 3}
+  - ingredientName: Peas
+    full: {fileID: -6047047222667411204, guid: 12da3a80dda3ec54ebf98c65e350a515, type: 3}
     left: {fileID: 5989070033818399483, guid: 9e1b3e1540e5dbc459ac735b853c106f, type: 3}
     right: {fileID: -2549443045874675326, guid: 2d7854548fb5da04996ef602e82c8e97, type: 3}
-  - full: {fileID: -5542479453896469184, guid: 4ca25d1d6c249374bb1e351b9db87dfa, type: 3}
+  - ingredientName: Tax Folder
+    full: {fileID: -5542479453896469184, guid: 4ca25d1d6c249374bb1e351b9db87dfa, type: 3}
     left: {fileID: -1009664829905905901, guid: 3b045db791f012648bfefad08257e536, type: 3}
     right: {fileID: -4753328614653521870, guid: 597880ef42b363848889d21d4091b0e9, type: 3}
   selectedSprite:
+    ingredientName: 
     full: {fileID: 0}
     left: {fileID: 0}
     right: {fileID: 0}
