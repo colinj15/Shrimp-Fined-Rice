@@ -28,7 +28,7 @@ public class LobbySpawnManager : MonoBehaviour {
             availableSpawns.Enqueue(i);
         }
 
-        StartCoroutine(SpawnCustomersRoutine());
+        StartCoroutine(SpawnLoop());
     }
 
     IEnumerator SpawnLoop() {
@@ -72,7 +72,8 @@ public class LobbySpawnManager : MonoBehaviour {
             GameObject go = Instantiate(customerPrefab, spawnPoint.position, Quaternion.identity);
             var ctrl = go.GetComponent<CustomerController>();
             if (ctrl != null) {
-                ctrl.Setup(typeIndex, customerTypes[typeIndex].lobbySprite, customerTypes[typeIndex].waitingSprite);
+                var type = customerTypes[typeIndex];
+                ctrl.Setup(typeIndex, type.name, type.lobbySprite, type.waitingSprite);
             }
         }
     }
@@ -91,4 +92,3 @@ public class LobbySpawnManager : MonoBehaviour {
 
 
 }
-

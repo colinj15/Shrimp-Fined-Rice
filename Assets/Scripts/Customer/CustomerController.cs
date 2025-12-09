@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class CustomerController : MonoBehaviour {
     private SpriteRenderer sr;
     private int typeId;
+    private string customerName;
     private Sprite lobbySprite;
     private Sprite waitingSprite;
 
@@ -20,8 +21,9 @@ public class CustomerController : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
     }
 
-    public void Setup(int customerTypeId, Sprite lobby, Sprite waiting) {
+    public void Setup(int customerTypeId, string name, Sprite lobby, Sprite waiting) {
         typeId = customerTypeId;
+        customerName = name;
         lobbySprite = lobby;
         waitingSprite = waiting;
 
@@ -56,7 +58,23 @@ public class CustomerController : MonoBehaviour {
         }
 
         // create order in OrderManager
-        Order newOrder = OrderManager.Instance.CreateOrder(chosenIndexes, typeId, lobbySprite, waitingSprite);
+        // map indexes to ingredient names for OrderSystem
+        var ingredientNames = new List<string>();
+        foreach (var idx in chosenIndexes) {
+            if (idx >= 0 && idx < ingredientList.ingredients.Count) {
+                var ing = ingredientList.ingredients[idx];
+                if (ing != null && !string.IsNullOrWhiteSpace(ing.ingredientName))
+                    ingredientNames.Add(ing.ingredientName);
+            }
+        }
+
+        Order newOrder = OrderManager.Instance.CreateOrder(
+            chosenIndexes,
+            ingredientNames,
+            typeId,
+            string.IsNullOrEmpty(customerName) ? $"Customer {typeId}" : customerName,
+            lobbySprite,
+            waitingSprite);
         if (newOrder != null) {
             // optionally play an animation or move off screen
             Destroy(gameObject); // remove lobby customer after ordering
@@ -69,4 +87,3 @@ public class CustomerController : MonoBehaviour {
     }
 
 }
-

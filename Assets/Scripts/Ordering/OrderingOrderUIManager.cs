@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class OrderUIManager : MonoBehaviour {
-    public static OrderUIManager Instance { get; private set; }
+// Note: renamed to avoid clashing with LobbyAndWaiting/OrderUIManager
+public class OrderingOrderUIManager : MonoBehaviour {
+    public static OrderingOrderUIManager Instance { get; private set; }
 
     [Header("UI")]
     public Transform ordersPanel; // parent where buttons are instantiated
@@ -61,4 +62,3 @@ public class OrderUIManager : MonoBehaviour {
         // remove highlight visually if implemented
     }
 }
-
