@@ -59,14 +59,21 @@ public class OrderUIManager : MonoBehaviour {
                 Destroy(child.gameObject);
         }
 
-        // spawn new tickets
+        int slotIndex = 0;
+        // spawn new tickets (skip orders already completed for the current minigame context)
         for (int i = 0; i < OrderSystem.ActiveOrders.Count; i++) {
-            if (i >= ticketSlots.Length || ticketSlots[i] == null) {
-                Debug.LogError($"[OrderUIManager] Missing ticket slot for order index {i}.");
+            var order = OrderSystem.ActiveOrders[i];
+            if (OrderManager.Instance != null && OrderManager.Instance.ShouldHideForCurrentMinigame(order.CustomerID))
+                continue;
+            else if (OrderManager.Instance != null)
+                Debug.Log($"[OrderUIManager] Showing order {order.CustomerID} in context {OrderManager.Instance.CurrentMinigameContext}");
+
+            if (slotIndex >= ticketSlots.Length || ticketSlots[slotIndex] == null) {
+                Debug.LogError($"[OrderUIManager] Missing ticket slot for order index {slotIndex}.");
                 continue;
             }
 
-            var ticketObj = Instantiate(ticketPrefab, ticketSlots[i]);
+            var ticketObj = Instantiate(ticketPrefab, ticketSlots[slotIndex]);
             // Ensure the instantiated UI stretches to the slot size (prevents oversized children)
             var ticketRect = ticketObj.transform as RectTransform;
             if (ticketRect != null) {
@@ -84,7 +91,8 @@ public class OrderUIManager : MonoBehaviour {
                 continue;
             }
 
-            ui.SetOrder(OrderSystem.ActiveOrders[i]);
+            ui.SetOrder(order);
+            slotIndex++;
         }
     }
 

@@ -45,6 +45,14 @@ public class GameManager : MonoBehaviour
 
     public void LoadKitchen()
     {
+        // Apply score to the active minigame order and mark chopping complete
+        var order = OrderSystem.ActiveMinigameOrder;
+        if (order != null) {
+            int totalScore = cutScore * 5;
+            OrderManager.Instance?.AddScore(order.CustomerID, totalScore);
+            OrderManager.Instance?.MarkMinigameComplete(order.CustomerID, OrderManager.MinigameType.Chopping);
+        }
+
         SceneManager.LoadScene("Kitchen");
     }
 

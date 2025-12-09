@@ -24,7 +24,7 @@ public class OrderManager : MonoBehaviour {
 
     public bool HasCapacity() => activeOrders.Count < 6;
 
-    public Order CreateOrder(List<int> ingredientIndexes, int customerTypeId, Sprite lobbySprite, Sprite waitingSprite) {
+    public Order CreateOrder(List<int> ingredientIndexes, List<string> ingredientNames, int customerTypeId, string customerName, Sprite lobbySprite, Sprite waitingSprite) {
         if (!HasCapacity()) {
             Debug.LogWarning("OrderManager: no capacity for new order.");
             return null;
@@ -32,14 +32,25 @@ public class OrderManager : MonoBehaviour {
 
         var order = new Order(nextOrderId++);
         order.ingredientIndexes.AddRange(ingredientIndexes);
+        if (ingredientNames != null) order.ingredientNames.AddRange(ingredientNames);
         order.customerTypeId = customerTypeId;
+        order.customerName = string.IsNullOrEmpty(customerName) ? $"Customer {customerTypeId}" : customerName;
         order.lobbySprite = lobbySprite;
         order.waitingSprite = waitingSprite;
 
         activeOrders.Add(order.orderId, order);
 
-        // Notify UI, etc.
-        OrderUIManager.Instance?.OnOrderCreated(order);
+        // Sync with shared OrderSystem for UI/minigames
+        OrderSystem.AddOrder(
+            order.orderId, 
+            order.customerName, 
+            order.ingredientNames, 
+            order.lobbySprite, 
+            order.waitingSprite
+        );
+        order.orderData = OrderSystem.GetOrderByID(order.orderId);
+
+        OrderingOrderUIManager.Instance?.OnOrderCreated(order);
 
         return order;
     }
@@ -51,12 +62,75 @@ public class OrderManager : MonoBehaviour {
 
     public void RemoveOrder(int id) {
         if (activeOrders.Remove(id)) {
-            OrderUIManager.Instance?.OnOrderRemoved(id);
+            OrderSystem.RemoveOrderByID(id);
+            OrderingOrderUIManager.Instance?.OnOrderRemoved(id);
         }
+    }
+
+    // Score tracking
+    public void AddScore(int orderId, int delta) {
+        if (activeOrders.TryGetValue(orderId, out var order)) {
+            order.score += delta;
+        }
+    }
+
+    public int GetScore(int orderId) {
+        return activeOrders.TryGetValue(orderId, out var order) ? order.score : 0;
+    }
+
+    public enum MinigameType { Chopping, Washing, Cooking, Frying }
+    public MinigameType? CurrentMinigameContext { get; private set; }
+
+    public void SetCurrentMinigameContext(MinigameType? type) {
+        CurrentMinigameContext = type;
+    }
+
+    // Mark a minigame as completed for this order; if all are done, mark order complete.
+    public void MarkMinigameComplete(int orderId, MinigameType type) {
+        if (!activeOrders.TryGetValue(orderId, out var order)) return;
+
+        switch (type) {
+            case MinigameType.Chopping: order.choppingComplete = true; break;
+            case MinigameType.Washing: order.washingComplete = true; break;
+            case MinigameType.Cooking: order.cookingComplete = true; break;
+            case MinigameType.Frying: order.fryingComplete = true; break;
+        }
+
+        CheckAndCompleteOrder(order);
+    }
+
+    private void CheckAndCompleteOrder(Order order) {
+        if (order == null) return;
+
+        bool allDone = order.choppingComplete && order.washingComplete && order.cookingComplete && order.fryingComplete;
+        if (allDone) {
+            Debug.Log($"[OrderManager] Order {order.orderId} now complete (all minigames).");
+            OrderSystem.MarkOrderCompleteByID(order.orderId);
+            if (order.orderData != null)
+                order.orderData.IsComplete = true;
+        }
+    }
+
+    public bool ShouldHideForCurrentMinigame(int orderId) {
+        if (CurrentMinigameContext == null) return false;
+        if (!activeOrders.TryGetValue(orderId, out var order)) return false;
+
+        bool isComplete = order.orderData != null && order.orderData.IsComplete;
+        bool completedThisMini = CurrentMinigameContext switch {
+            MinigameType.Chopping => order.choppingComplete,
+            MinigameType.Washing => order.washingComplete,
+            MinigameType.Cooking => order.cookingComplete,
+            MinigameType.Frying => order.fryingComplete,
+            _ => false
+        };
+
+        Debug.Log($"[OrderManager] Hide check Order {orderId}: complete={isComplete}, chopping={order.choppingComplete}, washing={order.washingComplete}, cooking={order.cookingComplete}, frying={order.fryingComplete}, context={CurrentMinigameContext}, hide={(isComplete || completedThisMini)}");
+
+        if (isComplete) return true;
+        return completedThisMini;
     }
 
     public List<Order> GetAllOrders() {
         return new List<Order>(activeOrders.Values);
     }
 }
-

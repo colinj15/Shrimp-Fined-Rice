@@ -47,7 +47,24 @@ public class BasketController : MonoBehaviour
     }
 
     public int GetWeightedScore() {
-        
+        // Example weighted score: each clean veggie counts as 1, partial cleanliness contributes proportionally
+        if (veggies == null || veggies.Count == 0) return 0;
+
+        float total = 0f;
+        int counted = 0;
+
+        for (int i = 0; i < veggies.Count; i++) {
+            var veggie = veggies[i];
+            if (veggie == null) continue;
+
+            // Assume dirtyness ranges 0 (clean) to 1 (fully dirty); weight inversely
+            float cleanliness = Mathf.Clamp01(1f - veggie.dirtyness);
+            total += cleanliness;
+            counted++;
+        }
+
+        // Return rounded weighted score
+        return Mathf.RoundToInt(total);
     }
 
 }

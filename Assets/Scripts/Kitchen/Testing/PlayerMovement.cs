@@ -189,6 +189,16 @@ public class PlayerMovement : MonoBehaviour
         if (OrderUIManager.Instance != null)
             OrderUIManager.Instance.ClearSelectedOrder();
 
+        // Set current minigame context for filtering tickets
+        OrderManager.MinigameType? context = null;
+        switch (sceneName) {
+            case "Chopping": context = OrderManager.MinigameType.Chopping; break;
+            case "Washing": context = OrderManager.MinigameType.Washing; break;
+            case "Cooking": context = OrderManager.MinigameType.Cooking; break;
+            case "Frying": context = OrderManager.MinigameType.Frying; break;
+        }
+        OrderManager.Instance?.SetCurrentMinigameContext(context);
+
         // Disable tile selection/highlight so clicks go to UI
         if (tileSelection != null)
             tileSelection.enabled = false;
