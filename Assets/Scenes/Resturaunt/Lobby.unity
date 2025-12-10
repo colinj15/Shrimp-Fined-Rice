@@ -1271,6 +1271,8 @@ MonoBehaviour:
   customerPrefab: {fileID: 7833792289668704541, guid: 9278fe086c91f41c8a3b125ceb92f6e2, type: 3}
   minCustomers: 0
   maxCustomers: 0
+  minSpawnDelay: 15
+  maxSpawnDelay: 30
 --- !u!1 &1349802274
 GameObject:
   m_ObjectHideFlags: 0
