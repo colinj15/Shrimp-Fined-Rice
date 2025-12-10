@@ -39,7 +39,7 @@ public class CustomerDatabase : MonoBehaviour {
 
     // placeholder for now
     public List<string> GenerateRandomIngredients() {
-        List<string> sample = new List<string>() { "Bok choy", "Broccoli", "Carrots"};
+        List<string> sample = new List<string>() { "Bok choy", "Broccoli", "Carrots", "Peas", "Onion", "Cabbage", "Mushrooms"};
 
         int count = Random.Range(1, 4);
 
