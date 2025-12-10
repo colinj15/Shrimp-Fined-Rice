@@ -34,7 +34,8 @@ public class WaitingCustomerController : MonoBehaviour {
             OrderManager.Instance.RemoveOrder(orderId);
             Destroy(gameObject);
             ui.ClearSelection();
-            dailyCustomerCount ++;
+            
+            DailyCustomerLimit.Instance.RegisterServedCustomer();
         } else {
             Debug.Log($"This customer does not have order {selectedOrderId}. Try again.");
         }
