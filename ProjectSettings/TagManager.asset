@@ -10,6 +10,7 @@ TagManager:
   - Veggie
   - Water
   - Disposal
+  - Tilemap
   layers:
   - Default
   - TransparentFX
