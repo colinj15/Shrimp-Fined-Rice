@@ -7845,7 +7845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75e94680148c44004986b46b97afc2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 0
+  speed: 10
   gridSize: {x: 1, y: 1}
   counterTiles: {fileID: 1404651182}
   tileSelection: {fileID: 1071949451}
