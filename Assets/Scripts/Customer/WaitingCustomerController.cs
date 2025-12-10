@@ -5,7 +5,7 @@ public class WaitingCustomerController : MonoBehaviour {
     private int orderId;
     private SpriteRenderer sr;
 
-    public dailyCustomerCount;
+    public int dailyCustomerCount;
 
     private void Awake() {
         sr = GetComponent<SpriteRenderer>();
