@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         {
             targetPosition = tileSelection.GetHighlightedTilePosition();
             Vector2Int clickedTileCell = GridUtils.WorldToGrid(targetPosition);
-
+            
             if (!counterTiles.IsTileCounter(clickedTileCell))
             {
                 if (targetPosition != Vector2.zero)
