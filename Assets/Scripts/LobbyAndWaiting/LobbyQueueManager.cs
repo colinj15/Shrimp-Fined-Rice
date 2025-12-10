@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class LobbyQueueManager : MonoBehaviour {
@@ -13,14 +14,38 @@ public class LobbyQueueManager : MonoBehaviour {
     public int maxCustomers;
     private int spawnedCustomers = 0;
 
+    public float minSpawnDelay = 1f;
+    public float maxSpawnDelay = 5f;
+
     void Awake(){
         Instance = this;
     }
 
     void Start() {
-        FillQueue();
+        SpawnNewCustomerAtBack();
+        UpdateCustomerPositions();
+        UpdateClickability();
+
+        StartCoroutine(AutoFillQueueLoop());
     }
 
+    IEnumerator AutoFillQueueLoop() {
+        yield return new WaitForSeconds(1f);
+
+        while(true) {
+            float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+            yield return new WaitForSeconds(delay);
+
+            // if queue full, do nothing
+            if (queue.Count >= queuePositions.Length) continue;
+
+            //otherwise spawn new cust
+            SpawnNewCustomerAtBack();
+            UpdateCustomerPositions();
+            UpdateClickability();
+        }
+    }
+/*
     void FillQueue() {
         while (queue.Count < queuePositions.Length) {
             SpawnNewCustomerAtBack();
@@ -28,7 +53,7 @@ public class LobbyQueueManager : MonoBehaviour {
 
         UpdateCustomerPositions();
         UpdateClickability();
-    }
+    }*/
 
     void SpawnNewCustomerAtBack() {
         // make new character (identity + sprites)
@@ -60,8 +85,17 @@ public class LobbyQueueManager : MonoBehaviour {
         queue.Remove(customer);
         Destroy(customer);
 
-        SpawnNewCustomerAtBack();
         UpdateCustomerPositions();
         UpdateClickability();
     }
+
+/*
+    IEnumerator SpawnAfterDelay() {
+        float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+        yield return new WaitForSeconds(delay);
+
+        SpawnNewCustomerAtBack();
+        UpdateCustomerPositions();
+        UpdateClickability();
+    }*/
 }
