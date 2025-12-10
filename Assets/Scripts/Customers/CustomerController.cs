@@ -32,6 +32,8 @@ public class CustomerController : MonoBehaviour {
     }
 
     private void OnMouseDown() {
+        if (DailyCustomerLimit.Instance.DayIsOver) return;
+        
         // If user clicks this customer, generate order (only once)
         if (!hasOrdered && OrderManager.Instance != null && OrderManager.Instance.HasCapacity()) {
             hasOrdered = true;
