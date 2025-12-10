@@ -35,6 +35,12 @@ public class LobbySpawnManager : MonoBehaviour {
         yield return new WaitForSeconds(1f); // initial pause
 
         while (true) {
+            // stop spawning customers if daily limit reached
+            if (DailyCustomerLimit.Instance != null && DailyCustomerLimit.Instance.DayIsOver) {
+                Debug.Log("LobbySpawnManager: daily customer limit reached- no more customers will spawn");
+                yield break;
+            }
+
             // wait until there's capacity for a new order (max 6 active orders)
             if (OrderManager.Instance == null) {
                 yield return null;
@@ -88,7 +94,5 @@ public class LobbySpawnManager : MonoBehaviour {
     public void FreeSpawnPoint(int spawnIndex) {
     availableSpawns.Enqueue(spawnIndex);
     }
-
-
 
 }
