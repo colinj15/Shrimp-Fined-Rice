@@ -6,16 +6,17 @@ public class OrderUIManager : MonoBehaviour {
     public GameObject ticketPrefab;
     public RectTransform[] ticketSlots;
     public RectTransform largeTicketSlot;   // parent on OrdersCanvas for enlarged ticket view
-    public GameObject largeTicketPrefab;    // optional override; falls back to ticketPrefab
 
     private OrderTicketUI selectedTicket;
     private GameObject activeLargeTicket;
     private Canvas ordersCanvas;
 
+    public OrderSystem.OrderData LastSelectedOrder { get; private set; }
+
     void Awake() {
         if (Instance == null) {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else {
             Destroy(gameObject);
@@ -58,14 +59,21 @@ public class OrderUIManager : MonoBehaviour {
                 Destroy(child.gameObject);
         }
 
-        // spawn new tickets
+        int slotIndex = 0;
+        // spawn new tickets (skip orders already completed for the current minigame context)
         for (int i = 0; i < OrderSystem.ActiveOrders.Count; i++) {
-            if (i >= ticketSlots.Length || ticketSlots[i] == null) {
-                Debug.LogError($"[OrderUIManager] Missing ticket slot for order index {i}.");
+            var order = OrderSystem.ActiveOrders[i];
+            if (OrderManager.Instance != null && OrderManager.Instance.ShouldHideForCurrentMinigame(order.CustomerID))
+                continue;
+            else if (OrderManager.Instance != null)
+                Debug.Log($"[OrderUIManager] Showing order {order.CustomerID} in context {OrderManager.Instance.CurrentMinigameContext}");
+
+            if (slotIndex >= ticketSlots.Length || ticketSlots[slotIndex] == null) {
+                Debug.LogError($"[OrderUIManager] Missing ticket slot for order index {slotIndex}.");
                 continue;
             }
 
-            var ticketObj = Instantiate(ticketPrefab, ticketSlots[i]);
+            var ticketObj = Instantiate(ticketPrefab, ticketSlots[slotIndex]);
             // Ensure the instantiated UI stretches to the slot size (prevents oversized children)
             var ticketRect = ticketObj.transform as RectTransform;
             if (ticketRect != null) {
@@ -83,7 +91,8 @@ public class OrderUIManager : MonoBehaviour {
                 continue;
             }
 
-            ui.SetOrder(OrderSystem.ActiveOrders[i]);
+            ui.SetOrder(order);
+            slotIndex++;
         }
     }
 
@@ -92,6 +101,7 @@ public class OrderUIManager : MonoBehaviour {
             selectedTicket.SetHighlight(false);
 
         selectedTicket = ticketUI;
+        LastSelectedOrder = order;
 
         // tell WaitingAreaManager which order is selected
         WaitingAreaManager.SelectedOrder = order;
@@ -103,20 +113,27 @@ public class OrderUIManager : MonoBehaviour {
         largeTicketUI?.ClearHighlightState();
     }
 
+    public void ClearSelectedOrder() {
+        LastSelectedOrder = null;
+        selectedTicket = null;
+    }
+
     private OrderTicketUI ShowLargeTicket(OrderSystem.OrderData order) {
         if (!EnsureLargeTicketSlot())
             return null;
 
-        var prefab = largeTicketPrefab != null ? largeTicketPrefab : ticketPrefab;
-        if (prefab == null) {
-            Debug.LogError("[OrderUIManager] No prefab available for large ticket.");
+        if (ticketPrefab == null) {
+            Debug.LogError("[OrderUIManager] No ticket prefab assigned.");
             return null;
         }
 
         if (activeLargeTicket != null)
             Destroy(activeLargeTicket);
 
-        activeLargeTicket = Instantiate(prefab, largeTicketSlot);
+        activeLargeTicket = Instantiate(ticketPrefab, largeTicketSlot);
+        // Ensure the large ticket renders on top by moving its parent and itself to the end of the hierarchy
+        largeTicketSlot.SetAsLastSibling();
+        activeLargeTicket.transform.SetAsLastSibling();
 
         // Stretch to fill the slot for consistent sizing
         if (activeLargeTicket.transform is RectTransform rect) {
@@ -135,6 +152,7 @@ public class OrderUIManager : MonoBehaviour {
         }
 
         ui.SetOrder(order);
+        ui.DisableHighlighting(); // ensure large ticket never highlights (hover or select)
         return ui;
     }
 

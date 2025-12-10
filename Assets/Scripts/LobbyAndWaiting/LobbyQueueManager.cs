@@ -9,6 +9,10 @@ public class LobbyQueueManager : MonoBehaviour {
 
     private List<GameObject> queue = new List<GameObject>();
 
+    public int minCustomers;
+    public int maxCustomers;
+    private int spawnedCustomers = 0;
+
     void Awake(){
         Instance = this;
     }
