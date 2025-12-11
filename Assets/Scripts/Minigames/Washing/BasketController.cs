@@ -18,7 +18,6 @@ public class BasketController : MonoBehaviour
     private Dictionary<string, int> satisfiedCounts = new Dictionary<string, int>();
     private bool requirementsSatisfied = false;
     private OrderSystem.OrderData activeOrder;
-    public TextMeshProUGUI timerText;
 
     public float timeLimit = 10f;
     private float timeRemaining;
@@ -50,12 +49,6 @@ public class BasketController : MonoBehaviour
 
         Destroy(veggie.gameObject);
     }
-
-    void Start() {
-        timeRemaining = timeLimit;
-        timeUp = false;
-    }
-
 
     void Start() {
         timeRemaining = timeLimit;
@@ -133,7 +126,7 @@ public class BasketController : MonoBehaviour
         {
             StopTimer();
             int bonus = remainingSeconds * 3;
-            OrderManager.Instance?.AddScore(activeOrder.CustomerID, bonus);
+            OrderManager.Instance?.AddScore(activeOrder.CustomerID, bonus, OrderManager.MinigameType.Washing);
             OrderManager.Instance?.MarkMinigameComplete(activeOrder.CustomerID, OrderManager.MinigameType.Washing);
             UpdateRequiredText();
             ShowEndScreen(bonus);

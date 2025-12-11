@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        music.loop = true;
+
     }
 
     public void Update()

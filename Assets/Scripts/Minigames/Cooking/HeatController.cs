@@ -104,14 +104,6 @@ public class HeatController : MonoBehaviour
         return score;
     }
 
-    public int GetDisplayScore() {
-        return Mathf.FloorToInt(score * 10);
-    }
-
-    public float GetRawScore() {
-        return score;
-    }
-
     public void FinishMinigame() {
         var order = OrderSystem.ActiveMinigameOrder;
 

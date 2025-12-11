@@ -75,7 +75,7 @@ public class CookManager : MonoBehaviour
         var activeOrder = OrderSystem.ActiveMinigameOrder;
         if (activeOrder != null)
         {
-            OrderManager.Instance?.AddScore(activeOrder.CustomerID, score);
+            OrderManager.Instance?.AddScore(activeOrder.CustomerID, score, OrderManager.MinigameType.Cooking);
             OrderManager.Instance?.MarkMinigameComplete(activeOrder.CustomerID, OrderManager.MinigameType.Cooking);
         }
     }
