@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class GameManager : MonoBehaviour
     private int money = 100;
     public int startingDebt = 200;
     private int debt;
-    private int day = 1;
-    
+    private int day = 0;
+
     // Upgrades
     private bool hasDoorbell = false;
     private int postersBought = 0;
@@ -21,10 +22,11 @@ public class GameManager : MonoBehaviour
     // Day data
     private int tips = 0; // resets at end of day
     private int satisfaction = 0;
-    private int bonus = 0; // based on satisfaction built up over the week
+    private int bonus = 25; // based on satisfaction built up over the week
     private int customersServed = 0;
     private int irsSpotted = 0;
-
+    private bool dayInProgress = false;
+    
     [Header("Audio")]
     public AudioSource music;
     public AudioSource sfx;
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
     }
 
     public void Update()
@@ -60,23 +63,24 @@ public class GameManager : MonoBehaviour
         {
             string scene = SceneManager.GetActiveScene().name;
             AudioClip musToPlay = null;
-            switch(scene) 
+            switch (scene)
             {
                 case "Main Menu":
                     musToPlay = titleMus;
-                break;
+                    break;
                 case "Computer Menu":
                     musToPlay = computerMus;
-                break;
+                    break;
                 default:
                     musToPlay = kitchenMus;
-                break;                
+                    break;
             }
-            if(musToPlay != null && activeSong != musToPlay)
+            if (musToPlay != null && activeSong != musToPlay)
             {
                 PlaySong(musToPlay);
             }
-        } else if (activeSong != null)
+        }
+        else if (activeSong != null)
         {
             music.Stop();
             activeSong = null;
@@ -90,6 +94,11 @@ public class GameManager : MonoBehaviour
         music.clip = song;
         activeSong = song;
         music.Play();
+    }
+
+    public void PlaySfx(AudioClip clip)
+    {
+        sfx.PlayOneShot(clip);
     }
 
     private void OnDestroy()
@@ -120,14 +129,27 @@ public class GameManager : MonoBehaviour
         {
             case "Doorbell":
                 hasDoorbell = true;
-            break;
+                break;
             case "Poster":
                 postersBought++;
-            break;
+                break;
             case "Stainless Pan":
                 hasStainlessPan = true;
-            break;
+                break;
         }
+    }
+
+    public IEnumerator DayCountdown()
+    {
+        day++;
+        tips = 0;
+        satisfaction = 0;
+        customersServed = 0;
+        irsSpotted = 0;
+        Debug.Log("starting day" + day);
+        yield return new WaitForSeconds(2f);
+        dayInProgress = false;
+        Debug.Log(dayInProgress);
     }
 
     // Getters for private variables
@@ -144,6 +166,8 @@ public class GameManager : MonoBehaviour
     public int GetBonus() { return bonus; }
     public int GetCustomersServed() { return customersServed; }
     public int GetIrsSpotted() { return irsSpotted; }
+    public bool GetDayInProgress() { return dayInProgress; }
+    public void SetDayInProgress(bool b) { dayInProgress = b; }
 
     public bool GetPlayMusic() { return playMusic; }
 }

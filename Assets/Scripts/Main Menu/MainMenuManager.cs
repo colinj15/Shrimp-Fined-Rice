@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,11 +30,17 @@ public class MainMenuManager : MonoBehaviour
         canvas.Add(credits);    
         SetCanvas(main);
         UpdateInstructions();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
    public void Play()
     {
         SceneManager.LoadScene("Lobby");
+        if (!gameManager.GetDayInProgress())
+        {
+            gameManager.SetDayInProgress(true);
+            StartCoroutine(gameManager.DayCountdown());
+        }
     }
         
     public void Instructions()
