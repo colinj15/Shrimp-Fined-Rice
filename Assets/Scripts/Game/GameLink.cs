@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +9,14 @@ public class GameLink : MonoBehaviour
     public GameObject posterButton;
     public GameObject panButton;
 
+    public AudioClip clickSound;
+    public TextMeshProUGUI moneyText;
+
     void Start()
     {
         gameManager = FindFirstObjectByType<GameManager>();
         UpdateButtons();
+        moneyText.text = $"${gameManager.GetMoney()}";
     }
 
     void Update()
@@ -22,6 +27,11 @@ public class GameLink : MonoBehaviour
         } else
         {
             UpdateButtons();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameManager.PlaySfx(clickSound);
         }
     }
 
@@ -59,5 +69,8 @@ public class GameLink : MonoBehaviour
                 return;
         }
         gameManager.SubtractMoney(i);
+        moneyText.text = $"${gameManager.GetMoney()}";
     }
+
+    
 }
