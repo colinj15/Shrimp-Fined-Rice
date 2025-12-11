@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     public int IngredientCounter;
     [SerializeField] private TextMeshProUGUI cutScoreText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         if (Instance == null)
@@ -25,7 +24,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         cutScoreText.text = "Score: " + cutScore.ToString() + "/20";
-
     }
 
     public string GetScore()
