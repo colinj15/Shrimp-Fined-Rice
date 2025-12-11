@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Default Player")]
     // Player Stats
-    private int money = 0;
+    private int money = 100;
     public int startingDebt = 200;
     private int debt;
     private int day = 1;
