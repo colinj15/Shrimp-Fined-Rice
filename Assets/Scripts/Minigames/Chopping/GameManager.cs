@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private int cutScore = 0;
     public int IngredientCounter;
     [SerializeField] private TextMeshProUGUI cutScoreText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     void Start()
     {
         cutScoreText.text = "Score: " + cutScore.ToString() + "/20";
@@ -48,8 +50,8 @@ public class GameManager : MonoBehaviour
         // Apply score to the active minigame order and mark chopping complete
         var order = OrderSystem.ActiveMinigameOrder;
         if (order != null) {
-            int totalScore = cutScore * 5;
-            OrderManager.Instance?.AddScore(order.CustomerID, totalScore);
+            int weighted = cutScore;
+            OrderManager.Instance?.AddScore(order.CustomerID, weighted, OrderManager.MinigameType.Chopping);
             OrderManager.Instance?.MarkMinigameComplete(order.CustomerID, OrderManager.MinigameType.Chopping);
         }
 

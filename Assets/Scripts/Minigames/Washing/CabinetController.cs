@@ -45,5 +45,8 @@ public class CabinetController : MonoBehaviour
         // Instantiate the veggie prefab at the cabinet's position
         Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y, 0);
         var veggie = Instantiate(veggiePrefab, spawnPosition, Quaternion.identity);
+
+        var vc = veggie.GetComponent<VeggieController>();
+        vc.veggieType = containedVeggie;
     }
 }

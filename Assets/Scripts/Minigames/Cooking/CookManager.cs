@@ -5,10 +5,8 @@ public class CookManager : MonoBehaviour
 {
     public float seconds;
     public TextMeshProUGUI time;
-    void Start()
-    {
 
-    }
+    public HeatController heatController;
 
     // Update is called once per frame
     void Update()
@@ -21,6 +19,7 @@ public class CookManager : MonoBehaviour
             // Ensure time doesn’t go negative
             if (seconds < 0)
                 seconds = 0;
+                heatController?.FinishMinigame();
         }
 
         // Update time display

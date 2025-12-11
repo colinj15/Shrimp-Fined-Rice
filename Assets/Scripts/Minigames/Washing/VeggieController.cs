@@ -29,6 +29,8 @@ public class VeggieController : MonoBehaviour
 
     private bool isCleaning = false;
 
+    public CabinetController.Veggie veggieType;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

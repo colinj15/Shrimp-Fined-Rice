@@ -8,6 +8,11 @@ public class BasketController : MonoBehaviour
     private int score = 0;
     private List<VeggieController> veggies = new List<VeggieController>();
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
+
+    public float timeLimit = 10f;
+    private float timeRemaining;
+    private bool timeUp = false;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,26 +26,44 @@ public class BasketController : MonoBehaviour
         veggies.Remove(veggie);
     }
 
+    void Start() {
+        timeRemaining = timeLimit;
+        timeUp = false;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        score = 0;
-        for (int i = 0; i < veggies.Count; i++)
-        {
-            var veggie = veggies[i];
-            if (veggie == null)
-            {
-                veggies.RemoveAt(i);
-                i--;
-                continue;
+        timerText.text = $"Time: {timeRemaining:0.0}";
+        // TIMER
+        if (!timeUp) {
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining <= 0f) {
+                timeUp = true;
+                timeRemaining = 0f; 
             }
+        }
 
-            if (veggie.dirtyness <= 0f)
-            {
-                score += 1;
-                /*Destroy(veggie.gameObject);
-                veggies.RemoveAt(i);
-                i--;*/
+        int orderId = OrderingOrderUIManager.Instance.GetSelectedOrderId();
+
+        if (!timeUp) {
+            score = 0;
+
+            for (int i = 0; i < veggies.Count; i++) {
+                var veggie = veggies[i];
+                if (veggie == null) {
+                    veggies.RemoveAt(i);  
+                    i--;
+                    continue;              
+                }
+
+                if (veggie.dirtyness <= 0f) {
+                    bool correct = OrderManager.Instance.OrderContainsVeggie(orderId,veggie.veggieType);
+
+                    if (correct) score += 1;
+                    else score -= 1;
+                }
             }
         }
         scoreText.text = "Score: " + score;
@@ -67,4 +90,14 @@ public class BasketController : MonoBehaviour
         return Mathf.RoundToInt(total);
     }
 
+    public void FinishWashingMinigame() {
+        var order = OrderSystem.ActiveMinigameOrder;
+        if (order != null) {
+
+            int weighted = ScoreUtility.ToWeighted20(score, 20);
+
+            OrderManager.Instance.AddScore(order.CustomerID, weighted, OrderManager.MinigameType.Washing);
+            OrderManager.Instance.MarkMinigameComplete(order.CustomerID, OrderManager.MinigameType.Washing);
+        }
+    }
 }

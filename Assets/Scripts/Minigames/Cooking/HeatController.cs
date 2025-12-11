@@ -96,5 +96,17 @@ public class HeatController : MonoBehaviour
         return ScoreUtility.ToWeighted20(raw, max);
     }
 
+    public void FinishMinigame() {
+        var order = OrderSystem.ActiveMinigameOrder;
+
+        if (order != null) {
+            int weightedScore = GetWeightedScore();
+
+            // save score for this customer and this minigame
+            OrderManager.Instance?.AddScore(order.CustomerID, weightedScore, OrderManager.MinigameType.Cooking);
+
+            OrderManager.Instance?.MarkMinigameComplete(order.CustomerID, OrderManager.MinigameType.Cooking);
+        }
+    }
 
 }
