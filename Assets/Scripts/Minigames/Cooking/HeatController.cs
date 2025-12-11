@@ -104,5 +104,25 @@ public class HeatController : MonoBehaviour
         return score;
     }
 
+    public int GetDisplayScore() {
+        return Mathf.FloorToInt(score * 10);
+    }
+
+    public float GetRawScore() {
+        return score;
+    }
+
+    public void FinishMinigame() {
+        var order = OrderSystem.ActiveMinigameOrder;
+
+        if (order != null) {
+            int weightedScore = GetWeightedScore();
+
+            // save score for this customer and this minigame
+            OrderManager.Instance?.AddScore(order.CustomerID, weightedScore, OrderManager.MinigameType.Cooking);
+
+            OrderManager.Instance?.MarkMinigameComplete(order.CustomerID, OrderManager.MinigameType.Cooking);
+        }
+    }
 
 }

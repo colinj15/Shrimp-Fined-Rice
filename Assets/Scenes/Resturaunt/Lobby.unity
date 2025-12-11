@@ -873,7 +873,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -264, y: 33}
-  m_SizeDelta: {x: 160, y: 50}
+  m_SizeDelta: {x: 180, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1275173535
 MonoBehaviour:
@@ -1142,7 +1142,7 @@ Transform:
   m_LocalScale: {x: 2.35, y: 0.92, z: 0.43}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 599180035}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1349802276
 SpriteRenderer:
@@ -1199,7 +1199,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1424513776
@@ -1232,7 +1232,7 @@ Transform:
   m_LocalScale: {x: 2.57, y: 2.57, z: 2.57}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 599180035}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1424513778
 SpriteRenderer:
@@ -1509,7 +1509,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -40, y: 33}
-  m_SizeDelta: {x: 160, y: 50}
+  m_SizeDelta: {x: 180, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1753100737
 MonoBehaviour:
@@ -2101,3 +2101,5 @@ SceneRoots:
   - {fileID: 1641053454}
   - {fileID: 1280695193}
   - {fileID: 1773131061}
+  - {fileID: 1349802275}
+  - {fileID: 1424513777}

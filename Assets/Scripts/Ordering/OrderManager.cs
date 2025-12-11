@@ -68,14 +68,35 @@ public class OrderManager : MonoBehaviour {
     }
 
     // Score tracking
-    public void AddScore(int orderId, int delta) {
-        if (activeOrders.TryGetValue(orderId, out var order)) {
-            order.score += delta;
+    public void AddScore(int customerId, int amount, MinigameType type) {
+        Order order = GetOrderByCustomerID(customerId);
+        if (order == null) return;
+
+        switch (type) {
+            case MinigameType.Frying:
+                order.fryingScore = amount;
+                break;
+
+            case MinigameType.Cooking:
+                order.cookingScore = amount;
+                break;
+
+            case MinigameType.Chopping:
+                order.choppingScore = amount;
+                break;
+
+            case MinigameType.Washing:
+                order.washingScore = amount;
+                break;
         }
     }
 
+
+
     public int GetScore(int orderId) {
-        return activeOrders.TryGetValue(orderId, out var order) ? order.score : 0;
+        return activeOrders.TryGetValue(orderId, out var order)
+            ? order.choppingScore + order.washingScore + order.cookingScore + order.fryingScore : 0;
+
     }
 
     public enum MinigameType { Chopping, Washing, Cooking, Frying }
@@ -133,4 +154,25 @@ public class OrderManager : MonoBehaviour {
     public List<Order> GetAllOrders() {
         return new List<Order>(activeOrders.Values);
     }
+
+    public bool OrderContainsVeggie(int orderId, CabinetController.Veggie type) {
+        if (!activeOrders.TryGetValue(orderId, out var order)) return false;
+
+        foreach (string ingredient in order.ingredientNames) {
+            if (ingredient.Equals(type.ToString(), System.StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
+
+    public Order GetOrderByCustomerID(int customerID) {
+        foreach (Order order in activeOrders.Values) {
+            if (order.customerTypeId == customerID) { 
+                return order;
+            }
+        }
+        return null;
+    }
+
+
 }

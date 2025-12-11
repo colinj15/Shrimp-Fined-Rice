@@ -12,7 +12,11 @@ public class Order {
     public Sprite lobbySprite;
     public Sprite waitingSprite;
     public OrderSystem.OrderData orderData; // link to shared OrderSystem entry
-    public int score; // accumulated score across minigames
+    
+    public int choppingScore;
+    public int washingScore;
+    public int cookingScore;
+    public int fryingScore;
 
     // Minigame completion flags
     public bool choppingComplete;
