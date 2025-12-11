@@ -31,6 +31,7 @@ public class OrderSystem : MonoBehaviour {
         public Sprite LobbySprite;       // side-facing
         public Sprite WaitingSprite;     // front-facing
         public bool IsComplete;
+        public HashSet<string> PlayedMinigames = new HashSet<string>();
 
         public override string ToString() {
             var ingredientList = Ingredients == null ? "<none>" : string.Join(", ", Ingredients);
@@ -152,4 +153,15 @@ public class OrderSystem : MonoBehaviour {
         Debug.LogError($"[OrderSystem] No instance in scene when calling {caller}. Make sure an OrderSystem GameObject exists.");
         return false;
     }
+
+    public static bool HasPlayedMinigame(string minigameName) {
+        if (ActiveMinigameOrder == null) return false;
+        return ActiveMinigameOrder.PlayedMinigames.Contains(minigameName);
+    }
+
+    public static void MarkMinigamePlayed(string minigameName) {
+        if (ActiveMinigameOrder == null) return;
+        ActiveMinigameOrder.PlayedMinigames.Add(minigameName);
+    }
+
 }

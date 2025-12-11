@@ -107,9 +107,9 @@ public class FryingGameManager : MonoBehaviour {
 
         if (ratio >= 0.95f && ratio <= 1.05f)
             roundScore = 100;
-        else if (ratio >= 0.85f && ratio <= 1.15f)
+        else if (ratio >= 0.80f && ratio <= 1.20f)
             roundScore = 75;
-        else if (ratio >= 0.75f && ratio <= 1.25f)
+        else if (ratio >= 0.70f && ratio <= 1.30f)
             roundScore = 50;
         else
             roundScore = 0;
@@ -131,6 +131,14 @@ public class FryingGameManager : MonoBehaviour {
         gameOver = true;
         nextGame.gameObject.SetActive(true);
         Debug.Log ("Game over; total score: " + totalScore);
+
+        //save score to order
+        var order = OrderSystem.ActiveMinigameOrder;
+        if (order != null) {
+            int weighted = GetWeightedScore();
+            OrderManager.Instance.AddScore(order.CustomerID, weighted, OrderManager.MinigameType.Frying);
+            OrderManager.Instance.MarkMinigameComplete(order.CustomerID, OrderManager.MinigameType.Frying);
+        }
     }
 
     public void OnNextGameButtonPressed() {
@@ -177,4 +185,5 @@ public class FryingGameManager : MonoBehaviour {
         int maxScore = totalRounds * 100;
         return ScoreUtility.ToWeighted20(totalScore, maxScore);
     }
+
 }

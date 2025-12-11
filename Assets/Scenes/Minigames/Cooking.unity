@@ -1204,7 +1204,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0.5641353, b: 0, a: 1}
   m_FlipX: 0
@@ -1819,10 +1819,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CookManager
   seconds: 15
   time: {fileID: 1357793193}
-  mainCanvas: {fileID: 1696714257}
-  endScreenCanvas: {fileID: 417153344}
-  endScoreText: {fileID: 788745439}
-  heatController: {fileID: 547753382}
 --- !u!1 &1125443654
 GameObject:
   m_ObjectHideFlags: 0

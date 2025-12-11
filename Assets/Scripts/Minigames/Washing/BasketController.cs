@@ -18,6 +18,11 @@ public class BasketController : MonoBehaviour
     private Dictionary<string, int> satisfiedCounts = new Dictionary<string, int>();
     private bool requirementsSatisfied = false;
     private OrderSystem.OrderData activeOrder;
+    public TextMeshProUGUI timerText;
+
+    public float timeLimit = 10f;
+    private float timeRemaining;
+    private bool timeUp = false;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -46,8 +51,16 @@ public class BasketController : MonoBehaviour
         Destroy(veggie.gameObject);
     }
 
-    void Start()
-    {
+    void Start() {
+        timeRemaining = timeLimit;
+        timeUp = false;
+    }
+
+
+    void Start() {
+        timeRemaining = timeLimit;
+        timeUp = false;
+    
         if (endScreenCanvas != null)
             endScreenCanvas.enabled = false;
 

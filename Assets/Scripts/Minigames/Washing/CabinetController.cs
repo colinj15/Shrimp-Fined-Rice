@@ -75,5 +75,8 @@ public class CabinetController : MonoBehaviour
             case Veggie.Peas: return "Peas";
             default: return containedVeggie.ToString();
         }
+
+        var vc = veggie.GetComponent<VeggieController>();
+        vc.veggieType = containedVeggie;
     }
 }
