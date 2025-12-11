@@ -8,6 +8,8 @@ public class LobbySpawnManager : MonoBehaviour {
     public float minSpawnDelay = 2.0f;
     public float maxSpawnDelay = 6.0f;
 
+    private DayController dayController;
+
     [System.Serializable]
     public struct CustomerType {
         public string name;
@@ -27,6 +29,7 @@ public class LobbySpawnManager : MonoBehaviour {
         for (int i = 0; i< spawnPoints.Length; i++) {
             availableSpawns.Enqueue(i);
         }
+        dayController = FindFirstObjectByType<DayController>();
 
         StartCoroutine(SpawnLoop());
     }
@@ -38,6 +41,7 @@ public class LobbySpawnManager : MonoBehaviour {
             // stop spawning customers if daily limit reached
             if (DailyCustomerLimit.Instance != null && DailyCustomerLimit.Instance.DayIsOver) {
                 Debug.Log("LobbySpawnManager: daily customer limit reached- no more customers will spawn");
+                dayController.updateDayInfo();
                 yield break;
             }
 

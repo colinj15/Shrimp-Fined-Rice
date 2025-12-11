@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -16,6 +18,10 @@ public class MainMenuManager : MonoBehaviour
     public List<string> instructionList;
     private int activeInstruction = 0;
 
+    [Header("Music Toggling")]
+    public GameManager gameManager;
+    public Toggle toggle;
+
     void Awake()
     {
         canvas = new List<Canvas>();
@@ -24,11 +30,17 @@ public class MainMenuManager : MonoBehaviour
         canvas.Add(credits);    
         SetCanvas(main);
         UpdateInstructions();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
    public void Play()
     {
         SceneManager.LoadScene("Lobby");
+        if (!gameManager.GetDayInProgress())
+        {
+            gameManager.SetDayInProgress(true);
+            StartCoroutine(gameManager.DayCountdown());
+        }
     }
         
     public void Instructions()
@@ -70,5 +82,10 @@ public class MainMenuManager : MonoBehaviour
             if (c == canvas[i]) canvas[i].enabled = true;
             else canvas[i].enabled = false;
         }
+    }
+
+    public void ToggleMusic()
+    {
+        gameManager.SetPlayMusic(toggle.isOn);
     }
 }
