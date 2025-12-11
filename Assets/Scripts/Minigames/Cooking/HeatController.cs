@@ -96,5 +96,13 @@ public class HeatController : MonoBehaviour
         return ScoreUtility.ToWeighted20(raw, max);
     }
 
+    public int GetDisplayScore() {
+        return Mathf.FloorToInt(score * 10);
+    }
+
+    public float GetRawScore() {
+        return score;
+    }
+
 
 }

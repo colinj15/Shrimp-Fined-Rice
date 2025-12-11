@@ -7,6 +7,8 @@ public class VeggieController : MonoBehaviour
     [Header("State / Visuals")]
     private SpriteRenderer sr;
     public float dirtyness = 0.5f; // 0.5 = very dirty, 0.0 = clean
+    [SerializeField] private string ingredientName;
+    public string IngredientName => ingredientName;
 
     [Header("Drag Settings")]
     public bool usePhysicsWhileDragging = false; // if true, follow via velocity; else MovePosition
@@ -141,6 +143,11 @@ public class VeggieController : MonoBehaviour
     public void setSprite(Sprite newSprite)
     {
         sr.sprite = newSprite;
+    }
+
+    public void SetIngredientName(string name)
+    {
+        ingredientName = name;
     }
 
     void OnDrawGizmosSelected()
