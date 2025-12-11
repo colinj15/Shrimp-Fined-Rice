@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class MainMenuManager : MonoBehaviour
     public TextMeshProUGUI instructionText;
     public List<string> instructionList;
     private int activeInstruction = 0;
+
+    [Header("Music Toggling")]
+    public GameManager gameManager;
+    public Toggle toggle;
 
     void Awake()
     {
@@ -70,5 +75,10 @@ public class MainMenuManager : MonoBehaviour
             if (c == canvas[i]) canvas[i].enabled = true;
             else canvas[i].enabled = false;
         }
+    }
+
+    public void ToggleMusic()
+    {
+        gameManager.SetPlayMusic(toggle.isOn);
     }
 }

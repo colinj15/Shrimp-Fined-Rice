@@ -81,7 +81,7 @@ public class IngredientController : MonoBehaviour
         }
 
         selectedSprite = candidates[Random.Range(0, candidates.Count)];
-        GameManager.Instance.AddIngredient();
+        ChoppingGameManager.Instance.AddIngredient();
     }
 
     private HashSet<string> BuildAllowedIngredients()

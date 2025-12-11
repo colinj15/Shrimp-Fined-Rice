@@ -47,11 +47,11 @@ public class KnifeController : MonoBehaviour
         // If the cut ingredient is a tax folder
         if(leftController.selectedSprite.full.name == "Tax Folder_0")
         {
-            GameManager.Instance.RemoveScore(); // Decrease score
+            ChoppingGameManager.Instance.RemoveScore(); // Decrease score
         }
         else
         {
-            GameManager.Instance.AddScore(); // Increase score
+            ChoppingGameManager.Instance.AddScore(); // Increase score
         }
     }
 }
