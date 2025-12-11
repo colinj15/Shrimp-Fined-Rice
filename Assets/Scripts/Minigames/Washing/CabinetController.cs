@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,5 +46,34 @@ public class CabinetController : MonoBehaviour
         // Instantiate the veggie prefab at the cabinet's position
         Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y, 0);
         var veggie = Instantiate(veggiePrefab, spawnPosition, Quaternion.identity);
+
+        var controllers = veggie.GetComponentsInChildren<VeggieController>(true);
+        if (controllers != null && controllers.Length > 0)
+        {
+            string name = GetIngredientName();
+            foreach (var controller in controllers)
+            {
+                controller.SetIngredientName(name);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[CabinetController] Spawned veggie prefab missing VeggieController component: {veggie.name}");
+        }
+    }
+
+    private string GetIngredientName()
+    {
+        switch (containedVeggie)
+        {
+            case Veggie.BokChoy: return "Bok Choy";
+            case Veggie.Cabbage: return "Cabbage";
+            case Veggie.Carrot: return "Carrot";
+            case Veggie.Broccoli: return "Broccoli";
+            case Veggie.Mushroom: return "Mushroom";
+            case Veggie.Onion: return "Onion";
+            case Veggie.Peas: return "Peas";
+            default: return containedVeggie.ToString();
+        }
     }
 }
